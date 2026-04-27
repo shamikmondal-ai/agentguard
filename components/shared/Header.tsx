@@ -23,7 +23,7 @@ export function Header() {
   const NAV = [
     { label: 'Modules',  icon: LayoutGrid, href: '/#modules'   },
     { label: 'Reports',  icon: FileText,   href: '/report'     },
-    { label: 'Settings', icon: Settings,   href: '/#configure' },
+    { label: 'Settings', icon: Settings,   href: '/settings'   },
   ]
 
   return (

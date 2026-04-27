@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef, useState } from 'react'
+import Link from 'next/link'
 import { ShieldAlert, Play, CheckCircle2, XCircle, Loader2, AlertTriangle } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useDiagnostic } from '@/providers/DiagnosticProvider'
@@ -103,7 +104,12 @@ export function PromptInjectionCard({ config, onComplete }: ModuleProps) {
       {!hasPrompt && !done && (
         <div className="flex items-center gap-2 text-xs text-warning bg-warning/5 border border-warning/20 rounded-lg px-3 py-2">
           <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
-          Configure your agent system prompt above to run this test.
+          <span>
+            No agent prompt configured.{' '}
+            <Link href="/settings" className="underline hover:text-warning/70 transition-colors">
+              Configure in Settings →
+            </Link>
+          </span>
         </div>
       )}
 

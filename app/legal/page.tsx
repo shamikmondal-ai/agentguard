@@ -53,7 +53,7 @@ export default function LegalPage() {
       {/* Sections */}
       <div className="space-y-4">
         {SECTIONS.map(({ id, icon: Icon, iconColor, iconBg, title, body }) => (
-          <div key={id} id={id} className="card-executive p-6 space-y-4">
+          <div key={id} id={id} className="card-executive p-6 space-y-4 scroll-mt-24">
             <div className="flex items-start gap-4">
               <div className={`p-2 rounded-lg border shrink-0 ${iconBg}`}>
                 <Icon className={`h-5 w-5 ${iconColor}`} />

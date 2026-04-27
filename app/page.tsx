@@ -2,7 +2,7 @@ import { ArrowRight, Shield, Activity, CheckCircle2, Lock } from 'lucide-react'
 import Link from 'next/link'
 import { registry } from '@/registry'
 import { ScanConsole } from '@/components/shared/ScanConsole'
-import { AgentPromptInput } from '@/components/shared/AgentPromptInput'
+import { AgentStatus } from '@/components/shared/AgentStatus'
 import { ModuleGrid } from '@/components/shared/ModuleGrid'
 
 export default function HomePage() {
@@ -67,12 +67,12 @@ export default function HomePage() {
       </section>
 
       {/* ── Configure Agent Prompt ───────────────────────────────────────── */}
-      <section id="configure" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-6 pt-4">
-        <AgentPromptInput />
+      <section id="configure" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-6 pt-4 scroll-mt-20">
+        <AgentStatus />
       </section>
 
       {/* ── Module Grid ──────────────────────────────────────────────────── */}
-      <section id="modules" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+      <section id="modules" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 scroll-mt-20">
         <div className="flex items-end justify-between mb-8">
           <div>
             <p className="eyebrow mb-2">Diagnostic Modules</p>
