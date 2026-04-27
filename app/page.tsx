@@ -4,6 +4,7 @@ import { registry } from '@/registry'
 import { ScanConsole } from '@/components/shared/ScanConsole'
 import { AgentStatus } from '@/components/shared/AgentStatus'
 import { ModuleGrid } from '@/components/shared/ModuleGrid'
+import { PremiumAuditSection } from '@/components/shared/PremiumAuditSection'
 
 export default function HomePage() {
   return (
@@ -85,6 +86,9 @@ export default function HomePage() {
         </div>
         <ModuleGrid />
       </section>
+
+      {/* ── Premium Governance Audit ─────────────────────────────────────── */}
+      <PremiumAuditSection />
 
       {/* ── Scan Console ─────────────────────────────────────────────────── */}
       <ScanConsole />
