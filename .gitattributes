@@ -1,0 +1,3 @@
+# Normalize line endings: commit as LF, checkout as OS-native
+* text=auto eol=lf
+*.bat text eol=crlf
