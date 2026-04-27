@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { registry } from '@/registry'
 import { ScanConsole } from '@/components/shared/ScanConsole'
 import { AgentPromptInput } from '@/components/shared/AgentPromptInput'
-import { TemplateCard } from '@/modules/_template/components/StressTestCard'
+import { ModuleGrid } from '@/components/shared/ModuleGrid'
 
 export default function HomePage() {
   return (
@@ -42,7 +42,10 @@ export default function HomePage() {
               Run First Scan
               <ArrowRight className="h-4 w-4" />
             </a>
-            <Link href="/report?demo=true" className="flex items-center gap-2 px-6 py-3 rounded-xl bg-surface border border-border text-foreground font-semibold hover:bg-surface-raised hover:border-accent/30 transition-all duration-200 text-sm w-full sm:w-auto">
+            <Link
+              href="/report?demo=true"
+              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-surface border border-border text-foreground font-semibold hover:bg-surface-raised hover:border-accent/30 transition-all duration-200 text-sm w-full sm:w-auto"
+            >
               View Sample Report
             </Link>
           </div>
@@ -50,8 +53,8 @@ export default function HomePage() {
           <div className="flex flex-wrap items-center justify-center gap-8 text-center">
             {[
               { value: '99.2%', label: 'Detection Rate' },
-              { value: '<2s', label: 'Avg. Scan Time' },
-              { value: '12+', label: 'Test Modules' },
+              { value: '<2s',   label: 'Avg. Scan Time' },
+              { value: '12+',   label: 'Test Modules' },
               { value: 'SOC 2', label: 'Compliant' },
             ].map(({ value, label }) => (
               <div key={label} className="flex flex-col items-center">
@@ -80,22 +83,7 @@ export default function HomePage() {
             {registry.filter((m) => m.isAvailable).length} modules active
           </span>
         </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {registry
-            .filter((m) => m.isAvailable)
-            .map((mod) => {
-              const ModuleComponent = mod.component
-              return (
-                <ModuleComponent
-                  key={mod.id}
-                  config={{}}
-                  onComplete={() => {}}
-                />
-              )
-            })}
-          <TemplateCard config={{}} onComplete={() => {}} />
-        </div>
+        <ModuleGrid />
       </section>
 
       {/* ── Scan Console ─────────────────────────────────────────────────── */}
