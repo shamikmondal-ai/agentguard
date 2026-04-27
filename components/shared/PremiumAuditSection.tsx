@@ -28,8 +28,8 @@ const DELIVERABLES = [
     desc: 'Quantified risk exposure for legal, boardroom, and underwriting',
   },
   {
-    title: '1-on-1 Strategic Debrief with Shamik Mondal',
-    desc: 'Executive walkthrough of findings and remediation priorities',
+    title: '1-on-1 Strategic Debrief',
+    desc: 'Executive walkthrough of findings and prioritised remediation roadmap',
   },
 ]
 
@@ -95,11 +95,13 @@ function BookingModal({ open, onOpenChange }: { open: boolean; onOpenChange: (v:
     <Dialog.Root open={open} onOpenChange={handleClose}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-background/75 backdrop-blur-md" />
+        {/* Positioning uses inline style so CSS animations can't override the transform */}
         <Dialog.Content
-          className="fixed z-50 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg max-h-[90vh] overflow-y-auto fade-slide-in"
+          className="fixed z-50 w-full px-4 sm:px-0"
+          style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%)', maxWidth: '32rem' }}
           aria-describedby="booking-desc"
         >
-          <div className="bg-surface border border-border rounded-2xl shadow-card-hover p-8">
+          <div className="fade-slide-in bg-surface border border-border rounded-2xl shadow-card-hover p-8 max-h-[90vh] overflow-y-auto scrollbar-hidden">
 
             {/* Header */}
             <div className="flex items-start justify-between mb-6">
@@ -130,7 +132,8 @@ function BookingModal({ open, onOpenChange }: { open: boolean; onOpenChange: (v:
                 </div>
                 <h3 className="font-serif text-xl font-bold text-foreground">Request received</h3>
                 <p className="text-sm text-muted leading-relaxed max-w-xs mx-auto">
-                  Your intake has been submitted. Shamik will review it and reach out to {form.email} within one business day.
+                  Your intake has been submitted. Our team will review it and reach out to{' '}
+                  <span className="text-foreground font-medium">{form.email}</span> within one business day.
                 </p>
                 <button
                   onClick={() => handleClose(false)}
@@ -350,14 +353,10 @@ export function PremiumAuditSection() {
                 ))}
               </ul>
 
-              <div className="mt-7 pt-5 border-t border-border flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-warning/10 border border-warning/20 flex items-center justify-center shrink-0">
-                  <span className="text-xs font-bold text-warning">SM</span>
-                </div>
-                <div>
-                  <p className="text-xs font-semibold text-foreground">Shamik Mondal</p>
-                  <p className="text-[11px] text-muted">AI Governance Lead · Former Bain & Company</p>
-                </div>
+              <div className="mt-7 pt-5 border-t border-border">
+                <p className="text-xs text-muted leading-relaxed">
+                  Delivered by certified AI governance consultants · Tailored to your agent deployment
+                </p>
               </div>
             </div>
 
