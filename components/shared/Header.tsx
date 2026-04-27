@@ -2,16 +2,35 @@
 
 import { Shield, LayoutGrid, FileText, Settings } from 'lucide-react'
 import Link from 'next/link'
+import { usePathname, useRouter } from 'next/navigation'
 import { useDiagnostic } from '@/providers/DiagnosticProvider'
 import { StatusBadge } from './StatusBadge'
 
 export function Header() {
-  const { phase } = useDiagnostic()
+  const { phase, reset } = useDiagnostic()
+  const pathname = usePathname()
+  const router = useRouter()
+
+  function handleNewScan() {
+    reset()
+    if (pathname !== '/') {
+      router.push('/#configure')
+    } else {
+      document.getElementById('configure')?.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
+  const NAV = [
+    { label: 'Modules',  icon: LayoutGrid, href: '/#modules'   },
+    { label: 'Reports',  icon: FileText,   href: '/report'     },
+    { label: 'Settings', icon: Settings,   href: '/#configure' },
+  ]
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-xl">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
+
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
             <div className="p-1.5 rounded-lg bg-accent/10 border border-accent/20 group-hover:bg-accent/20 transition-colors">
@@ -24,11 +43,7 @@ export function Header() {
 
           {/* Nav */}
           <nav className="hidden md:flex items-center gap-1">
-            {[
-              { label: 'Modules', icon: LayoutGrid, href: '#modules' },
-              { label: 'Reports', icon: FileText, href: '#reports' },
-              { label: 'Settings', icon: Settings, href: '#settings' },
-            ].map(({ label, icon: Icon, href }) => (
+            {NAV.map(({ label, icon: Icon, href }) => (
               <Link
                 key={label}
                 href={href}
@@ -43,7 +58,10 @@ export function Header() {
           {/* Right side */}
           <div className="flex items-center gap-3">
             <StatusBadge phase={phase} />
-            <button className="hidden sm:flex items-center gap-1.5 px-4 py-2 rounded-lg bg-accent text-white text-sm font-semibold hover:bg-accent/80 transition-all duration-200 shadow-glow hover:shadow-glow">
+            <button
+              onClick={handleNewScan}
+              className="hidden sm:flex items-center gap-1.5 px-4 py-2 rounded-lg bg-accent text-white text-sm font-semibold hover:bg-accent/80 transition-all duration-200 shadow-glow"
+            >
               <Shield className="h-3.5 w-3.5" />
               New Scan
             </button>

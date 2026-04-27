@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import '@fontsource/inter/400.css'
 import '@fontsource/inter/500.css'
 import '@fontsource/inter/600.css'
@@ -33,10 +34,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 © {new Date().getFullYear()} AgentGuard. Enterprise AI Governance Platform.
               </p>
               <div className="flex items-center gap-4 text-xs text-muted">
-                <a href="#" className="hover:text-foreground transition-colors">Privacy</a>
-                <a href="#" className="hover:text-foreground transition-colors">Terms</a>
-                <a href="#" className="hover:text-foreground transition-colors">Security</a>
-                <a href="#" className="hover:text-foreground transition-colors">Docs</a>
+                <Link href="/legal#privacy" className="hover:text-foreground transition-colors">Privacy</Link>
+                <Link href="/legal#terms"   className="hover:text-foreground transition-colors">Terms</Link>
+                <Link href="/legal#security" className="hover:text-foreground transition-colors">Security</Link>
+                <Link
+                  href="https://github.com/shamikmondal-ai/agentguard"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-foreground transition-colors"
+                >
+                  Docs ↗
+                </Link>
               </div>
             </div>
           </footer>

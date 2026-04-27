@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { useRouter } from 'next/navigation'
 import { CheckCircle2, XCircle, AlertTriangle, Terminal } from 'lucide-react'
 import { useDiagnostic, type LogEntry } from '@/providers/DiagnosticProvider'
 import { cn } from '@/lib/utils'
@@ -24,12 +25,38 @@ function LogLine({ entry }: { entry: LogEntry }) {
 }
 
 export function ScanConsole() {
-  const { phase, results, logs, generateReport } = useDiagnostic()
+  const { phase, results, logs, reportUrl, agentSystemPrompt, generateReport } = useDiagnostic()
+  const router = useRouter()
   const logEndRef = useRef<HTMLDivElement>(null)
+  const navigatedRef = useRef(false)
 
+  // Auto-scroll log window
   useEffect(() => {
     logEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
   }, [logs.length])
+
+  // Navigate to report page once ready
+  useEffect(() => {
+    if (!reportUrl || navigatedRef.current || results.length === 0) return
+    navigatedRef.current = true
+
+    const scores = results.map((r) => r.score)
+    const overallScore = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
+    const agentLabel = agentSystemPrompt.trim()
+      ? agentSystemPrompt.trim().split('\n')[0].slice(0, 60)
+      : 'Agent Under Test'
+
+    const reportData = {
+      scanId: `AGS-${Date.now().toString(36).toUpperCase()}`,
+      generatedAt: new Date().toISOString(),
+      agentLabel,
+      overallScore,
+      results,
+    }
+    try { sessionStorage.setItem('agentguard_report', JSON.stringify(reportData)) } catch { /* storage unavailable */ }
+
+    router.push('/report')
+  }, [reportUrl, results, agentSystemPrompt, router])
 
   if (phase === 'idle') return null
 
@@ -73,22 +100,17 @@ export function ScanConsole() {
                   className="fade-slide-in flex items-start gap-3 p-3 rounded-lg bg-surface-raised border border-border"
                   style={{ animationDelay: `${i * 0.08}s` }}
                 >
-                  {result.passed ? (
-                    <CheckCircle2 className="h-5 w-5 text-success shrink-0 mt-0.5" />
-                  ) : (
-                    <XCircle className="h-5 w-5 text-danger shrink-0 mt-0.5" />
-                  )}
+                  {result.passed
+                    ? <CheckCircle2 className="h-5 w-5 text-success shrink-0 mt-0.5" />
+                    : <XCircle className="h-5 w-5 text-danger shrink-0 mt-0.5" />}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-2">
                       <p className="text-sm font-semibold text-foreground">{result.moduleName}</p>
-                      <span
-                        className={cn(
-                          'text-xl font-bold tabular-nums',
-                          result.score >= 80 ? 'text-success' : result.score >= 50 ? 'text-warning' : 'text-danger',
-                        )}
-                      >
-                        {result.score}
-                        <span className="text-xs text-muted font-normal">/100</span>
+                      <span className={cn(
+                        'text-xl font-bold tabular-nums',
+                        result.score >= 80 ? 'text-success' : result.score >= 50 ? 'text-warning' : 'text-danger',
+                      )}>
+                        {result.score}<span className="text-xs text-muted font-normal">/100</span>
                       </span>
                     </div>
                     {result.findings.length > 0 && (
@@ -122,10 +144,10 @@ export function ScanConsole() {
               {phase === 'report_generation' ? (
                 <>
                   <div className="h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
-                  Generating…
+                  Generating Report…
                 </>
               ) : (
-                'Generate Full Report'
+                'Generate Full Report →'
               )}
             </button>
           </>

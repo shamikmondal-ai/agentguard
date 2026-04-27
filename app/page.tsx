@@ -1,4 +1,5 @@
 import { ArrowRight, Shield, Activity, CheckCircle2, Lock } from 'lucide-react'
+import Link from 'next/link'
 import { registry } from '@/registry'
 import { ScanConsole } from '@/components/shared/ScanConsole'
 import { AgentPromptInput } from '@/components/shared/AgentPromptInput'
@@ -41,9 +42,9 @@ export default function HomePage() {
               Run First Scan
               <ArrowRight className="h-4 w-4" />
             </a>
-            <button className="flex items-center gap-2 px-6 py-3 rounded-xl bg-surface border border-border text-foreground font-semibold hover:bg-surface-raised hover:border-accent/30 transition-all duration-200 text-sm w-full sm:w-auto">
+            <Link href="/report?demo=true" className="flex items-center gap-2 px-6 py-3 rounded-xl bg-surface border border-border text-foreground font-semibold hover:bg-surface-raised hover:border-accent/30 transition-all duration-200 text-sm w-full sm:w-auto">
               View Sample Report
-            </button>
+            </Link>
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-8 text-center">
